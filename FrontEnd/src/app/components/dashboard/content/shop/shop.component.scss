@@ -1,0 +1,63 @@
+.background{
+    background-color: white;
+    padding: 0.2em;
+}
+
+.tableHeigth{
+    height: 80%;
+    margin-bottom: 0;
+}
+
+.bt-header{
+    line-height: 64px;
+    padding: 0 24px;
+}
+
+.drop-style{
+    width: 75%;
+    height: 10em;
+}
+
+.trigger {
+    font-size: 18px;
+    line-height: 64px;
+    padding: 0 24px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.trigger:hover {
+    color: #1890ff;
+}
+
+.two-img{
+    margin-right: 0px;
+    display: flex;
+    flex-direction: column;
+}
+
+.myflex{
+    display: flex;
+    flex-direction: column;
+}
+
+.img-input{
+    width: 100%;
+    display: flex;
+    flex-direction: row warp;
+}
+
+.inputs{
+    margin-left: 0px;
+    width: 100%;
+    padding: 0px;
+}
+
+@media only screen and (max-width: 768px){
+    .trigger{
+        padding: 0 0px;
+    }
+    .bt-header{
+        padding: 0 0px;
+    }
+}

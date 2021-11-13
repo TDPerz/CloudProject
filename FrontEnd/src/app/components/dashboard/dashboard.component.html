@@ -1,0 +1,61 @@
+<nz-layout class="sizeall">
+  <nz-sider [hidden]="isResp" nzCollapsible [(nzCollapsed)]="isCollapse" class="size-sider" [nzTrigger]="null" class="cont-size">
+    <a routerLink="/">
+      <i nz-icon nzType="home" nzTheme="outline" style="width: 100%; height: 50px; font-size: 50px; margin: 5px 0px; color: white;" [nzIconfont]="'large'"></i>
+    </a>
+    <ul nz-menu nzTheme="dark" nzMode="inline">
+      <li nz-menu-item nzSelected (click)="selectConten('Dashboard')" [nzSelected]="option === 'Dashboard'">
+        <i nz-icon nzType="dashboard" ></i>
+        <span>Inventory</span>
+      </li>
+      <li nz-menu-item (click)="selectConten('Shop')" [nzSelected]="option === 'Shop'">
+        <i nz-icon nzType="shop" nzTheme="outline"></i>
+        <span>Shop</span>
+      </li>
+      <li nz-submenu nzTitle="{{user}}" nzIcon="user" class="menu-Botton">
+        <ul nz-menu [nzMode]="'vertical'">
+          <li nz-menu-item>settings</li>
+          <li nz-menu-item (click)="logOut()">LogOut</li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-content class="container">
+    <nz-drawer nzWidth="100%" [hidden]="!isResp" [nzClosable]="false" [nzVisible]="isColDrawer" [nzPlacement]="'left'" (nzOnClose)="isColDrawer = !isColDrawer">
+      <ng-container *nzDrawerContent nzTheme="dark" class="cont-size">
+        <div class="title-in-line">
+          <h2 class="h2-menu">Menu</h2>
+          <div class="left-A">
+            <button nz-button nzType="primary" [nzSize]="'large'" (click)="isColDrawer=!isColDrawer"><i nz-icon nzType="close" nzTheme="outline"></i></button>
+          </div>
+        </div>
+        <nz-divider class="divider-color"></nz-divider>
+        <ul nz-menu nzTheme="dark" nzMode="inline" class="menu-size">
+          <li nz-menu-item nzSelected (click)="selectConten('Dashboard')" [nzSelected]="option === 'Dashboard'">
+            <i nz-icon nzType="dashboard" ></i>
+            <span>Inventory</span>
+          </li>
+          <li nz-menu-item (click)="selectConten('Shop')" [nzSelected]="option === 'Shop'">
+            <i nz-icon nzType="shop" nzTheme="outline"></i>
+            <span>Shop</span>
+          </li>
+          <li nz-menu-item class="menu-Botton">
+            <!-- <ul nz-menu [nzMode]="'inline'">
+              <li nz-menu-item>settings</li>
+              <li nz-menu-item (click)="logOut()">LogOut</li>
+            </ul> -->
+          </li>
+        </ul>
+        <button class="menu-Botton bt-in-bot" nz-button nzType="text" nz-dropdown [nzDropdownMenu]="menu" [nzPlacement]="position">Usuario</button>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul nz-menu nzTheme="dark" class="ul-special">
+            <li nz-menu-item>1st menu item length</li>
+            <li nz-menu-item>2nd menu item length</li>
+          </ul>
+        </nz-dropdown-menu>
+      </ng-container>
+    </nz-drawer>
+    <app-inventory (isCollapsed)="closeSlide($event)"  [iscol]="(isResp)?isColDrawer:isCollapse" [isresp]="isResp" [hidden]="!(option === 'Dashboard')"></app-inventory>
+    <app-shop (isCollapsed)="closeSlide($event)" [iscol]="(isResp)?isColDrawer:isCollapse" [isresp]="isResp" [hidden]="!(option === 'Shop')"></app-shop>
+  </nz-content>
+</nz-layout>

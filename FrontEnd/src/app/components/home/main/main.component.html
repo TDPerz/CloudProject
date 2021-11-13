@@ -1,0 +1,31 @@
+<nz-carousel nzAutoPlay [nzEffect]="'scrollx'" > 
+    <div nz-carousel-content *ngFor="let i of news">
+        <div class="carusel-background" style="background-image: url({{i.img.url}});">
+            <div class="dt">
+                <h2 nz-typography style="color:white">{{i.title}}</h2>
+                <p>{{i.desc}}</p>
+            </div> 
+        </div>
+    </div>
+</nz-carousel>
+<div class="bg-Div">
+    <nz-list nzGrid class="list">
+        <div nz-row [nzGutter]="16">
+            <div nz-col [nzSpan]="12" [nzXXl]="8" [nzXl]="8" [nzLg]="8" [nzMd]="6" [nzSm]="12" [nzXs]="24">
+                <nz-list-item class="list-item">
+                    <nz-card nzHoverable [nzTitle]="'Productos'" routerLink="/products">Ver todos los productos que tenemos</nz-card>
+                </nz-list-item>
+            </div>
+            <div nz-col [nzSpan]="12" [nzXXl]="8" [nzXl]="8" [nzLg]="8" [nzMd]="6" [nzSm]="12" [nzXs]="24">
+                <nz-list-item class="list-item">
+                    <nz-card nzHoverable [nzTitle]="'servicios'">Card content</nz-card>
+                </nz-list-item>
+            </div>
+            <div nz-col [nzSpan]="12" [nzXXl]="8" [nzXl]="8" [nzLg]="8" [nzMd]="6" [nzSm]="12" [nzXs]="24">
+                <nz-list-item class="list-item">
+                    <nz-card nzHoverable [nzTitle]="'Otros'">Card content</nz-card>
+                </nz-list-item>
+            </div>
+        </div>
+    </nz-list>
+</div>

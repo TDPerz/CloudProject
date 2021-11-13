@@ -1,0 +1,132 @@
+<nz-modal [(nzVisible)]="editModel" nzTitle="Editar Item">
+    <ng-container *nzModalContent>
+        <form [formGroup]="editForm">
+            <div class="img-input">
+                <div class="two-img">
+                    <img nz-image width="25%" height="25%" nzSrc="{{urlIEdit}}" alt=""/>
+                    <ngx-dropzone class="drop-style" (change)="onSelect($event)" class="drop-style" [multiple]="false" accept="image/*">
+                        <ngx-dropzone-label>Drop img</ngx-dropzone-label>
+                        <ngx-dropzone-image-preview class="previe-img" ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f"></ngx-dropzone-image-preview>
+                    </ngx-dropzone>
+                </div>
+                <div class="inputs">
+                    <nz-form-control nzErrorTip="Need to put id name">
+                        <div>
+                            <label for="#title">Title</label>
+                            <input formControlName="titleE" id="title" nz-input placeholder="example: blue shorts"/>
+                        </div>
+                    </nz-form-control>
+                    <nz-form-control nzErrorTip="Need to put id name">
+                        <div>
+                            <label for="#tagE">Tags</label>
+                            <input formControlName="tagE" id="tagE" nz-input placeholder="example: blue shorts"/>
+                        </div>
+                    </nz-form-control>
+                </div>
+            </div>
+            <nz-form-control nzErrorTip="Need to put id name">
+                <div>
+                    <label for="#desc">Description</label>
+                    <textarea id="desc" formControlName="descE" nz-input placeholder="Descripicon of product" ></textarea>
+                </div>
+            </nz-form-control>
+            <nz-form-control nzErrorTip="Need to put id name">
+                <div>
+                    <label for="#costS">Cost</label>
+                    <input formControlName="costE" id="costE" nz-input placeholder="example: blue shorts"/>
+                </div>
+            </nz-form-control>
+            <nz-form-control nzErrorTip="Need to put id name">
+                <div>
+                    <label for="#inStockS">inStock</label>
+                    <input formControlName="inStockE" id="inStockE" nz-input placeholder="example: blue shorts"/>
+                </div>
+            </nz-form-control>
+            <nz-form-control nzErrorTip="Need to put id name">
+                <div class="myflex">
+                    <label for="#date">Date</label>
+                    <nz-date-picker id="date" formControlName="dateE">Date</nz-date-picker>
+                </div>
+            </nz-form-control>
+        </form>
+    </ng-container>
+    <div *nzModalFooter>
+        <button nz-button class="cancel" nzType="default" (click)="cancelEdit()" nz-popconfirm nzPopconfirmTitle="quieres salir y no actualizar?" [nzCondition]="!getChange" (nzOnConfirm)="confirmClose()" (nzOnCancel)="cancelClose()" nzOkText="si" nzCancelText="no" [disabled]="isConfirmLoading">Cancel</button>
+        <button nz-button nzType="primary" (click)="submitEdit()" [nzLoading]="isConfirmLoading" >Submit</button>
+    </div>
+</nz-modal>
+
+<!-- Header -->
+<nz-page-header [nzGhost]="false">
+    <nz-page-header-title>
+        <i class="trigger" nz-icon [nzType]="iscol ? 'menu-unfold' : 'menu-fold'" (click)="callcol()"></i>
+        Inventory
+    </nz-page-header-title>
+    <nz-page-header-extra class="bt-header">
+        <button nz-button nzType="primary" nzShape="round" (click)="reload()">
+            <i nz-icon nzType="redo" nzTheme="outline"></i>
+        </button>
+    </nz-page-header-extra>
+</nz-page-header>
+<br>
+<!-- Tabla -->
+<nz-table nzTableLayout="fixed" [nzShowPagination]="(items.length < 10)?false:true" [nzData]="items" class="tableHeigth background" [nzScroll]="(items.length < 6)?{}:{ y:'600px' }" [nzPaginationType]="'small'">
+    <thead>
+        <tr>
+            <th>
+                preview
+            </th>
+            <th>
+                title
+            </th>
+            <th>
+                description
+            </th>
+            <th>
+                tag
+            </th>
+            <th>
+                cost
+            </th>
+            <th>
+                in stock
+            </th>
+            <th>
+                date
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let i of items; index as index">
+            <tr>
+                <td><img nz-image nzSrc="{{i.img.url}}" width="50%" height="20%" alt="{{i.title}}"></td>
+                <td>{{i.title}}</td>
+                <td *ngIf="i.desc.length < 15;else okExpanded" ><p nz-typography nzEllipsis>{{i.desc}}</p></td>
+                <ng-template #okExpanded>
+                    <td [nzExpand]="expandSet.has(index)" (nzExpandChange)="onExpandChange(index, $event)"><p nz-typography nzEllipsis>{{i.desc}}</p></td>
+                </ng-template>
+                <td>{{i.tag}}</td>
+                <td>{{i.cost}}</td>
+                <td>{{i.inStock}}</td>
+                <td>{{i.date | date: 'dd/MM/yyyy' }}</td>
+                <td>
+                    <a nz-button nzType="text" [hidden]=!isresp nz-dropdown [nzDropdownMenu]="menu" [nzPlacement]="'topRight'"><i nz-icon nzType="more" nzTheme="outline"></i></a>
+                    <nz-dropdown-menu #menu="nzDropdownMenu">
+                        <ul nz-menu nzSelectable>
+                        <li nz-menu-item ><i nz-icon nzType="edit" ></i> Edit</li>
+                        <li nz-menu-item ><i nz-icon nzType="delete"></i> Delete</li>
+                        </ul>
+                    </nz-dropdown-menu>
+                    <nz-space [hidden]="isresp">
+                        <button nz-button *nzSpaceItem nzType="primary" nzShape="circle" (click)="editItem(i)"><i nz-icon nzType="edit" ></i></button>
+                        <button nz-button *nzSpaceItem nzDanger nzType="primary" nzShape="circle" nz-popconfirm nzPopconfirmTitle="Quieres borrarlo?" (nzOnConfirm)="confirmDelet(i)" (nzOnCancel)="cancelDelet()" nzOkText="si" nzCancelText="no"><i nz-icon nzType="delete"></i></button>
+                    </nz-space>
+                </td>
+            </tr>
+            <tr [nzExpand]="expandSet.has(index)">
+                <span>{{i.desc}}</span>
+            </tr>
+        </ng-container>
+    </tbody>
+</nz-table>

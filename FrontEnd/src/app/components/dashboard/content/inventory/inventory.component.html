@@ -1,0 +1,170 @@
+<!--Add new item model-->
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Add new item">
+    <ng-container *nzModalContent>
+        <form [formGroup]="newItemForm">
+            <nz-form-control nzErrorTip="Need to put id name">
+                <div>
+                    <label for="#idNameInput">Id Name</label>
+                    <input formControlName="idNameN" id="idNameInput" nz-input placeholder="example: blue shorts"/>
+                </div>
+            </nz-form-control>
+            <div>
+                <label for="#tagInput">Tag</label>
+                <input formControlName="tagN" id="tagInput" nz-input placeholder="example: blue_shorts"/>
+            </div>
+            <div>
+                <label for="#cotInput">Cost</label>
+                <input formControlName="costN" id="costInput" nz-input placeholder="example: $50"/>
+            </div>
+            <div>
+                <label for="#inStockInput">In Stock</label>
+                <input formControlName="inStockN" id="inStockInput" nz-input placeholder="example: 2"/>
+            </div>
+        </form>
+    </ng-container>
+    <div *nzModalFooter>
+        <button nz-button class="cancel" nzType="default" (click)="handleCancel()" [disabled]="isConfirmLoading">Cancel</button>
+        <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading" >Submit</button>
+    </div>
+</nz-modal>
+<!--Edit item modal-->
+<nz-modal [(nzVisible)]="showEdit" nzTitle="Edit item">
+    <ng-container *nzModalContent>
+        <div>
+            <p>{{edititem.id_Name}}</p>
+        </div>
+        <div>
+            <p>{{edititem.tag}}</p>
+        </div>
+        <div>
+            <label for="#cotInputE">Cost</label>
+            <input id="costInputE" nz-input [(ngModel)]="edititem.cost"/>
+        </div>
+        <div>
+            <label for="#inStockInputE">In Stock</label>
+            <input id="inStockInputE" nz-input [(ngModel)]="edititem.inStock"/>
+        </div>
+    </ng-container>
+    <div *nzModalFooter>
+        <button nz-button class="cancel" nzType="default" (click)="showEdit = false" [disabled]="isConfirmLoading">Cancel</button>
+        <button nz-button nzType="primary" (click)="applyChange()" [nzLoading]="isConfirmLoading" >Submit</button>
+    </div>
+</nz-modal>
+<!--Share Modal-->
+
+<nz-modal [(nzVisible)]="isVisibleShare" nzTitle="Sharing">
+    <ng-container *nzModalContent>
+        <form [formGroup]="shareForm">
+            <div class="title-drop">
+                <nz-form-control>
+                    <ngx-dropzone (change)="onSelect($event)" class="drop-style" [multiple]="false" accept="image/*">
+                        <ngx-dropzone-label>Drop img</ngx-dropzone-label>
+                        <ngx-dropzone-image-preview class="previe-img" ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f"></ngx-dropzone-image-preview>
+                    </ngx-dropzone>
+                </nz-form-control>
+                <div class="title-tag">
+                    <nz-form-control nzErrorTip="Need to put id name">
+                        <div>
+                            <label for="#title">Title</label>
+                            <input formControlName="titleS" id="title" nz-input placeholder="example: blue shorts"/>
+                        </div>
+                    </nz-form-control>
+                    <nz-form-control nzErrorTip="Need to put id name">
+                        <div>
+                            <label for="#tagS">Tags</label>
+                            <input formControlName="tagS" id="tagS" nz-input placeholder="example: blue shorts"/>
+                        </div>
+                    </nz-form-control>
+                </div>
+            </div>
+            <nz-form-control nzErrorTip="Need to put id name">
+                <div>
+                    <label for="#desc">Description</label>
+                    <textarea id="desc" formControlName="desc" nz-input placeholder="Descripicon of product" ></textarea>
+                </div>
+            </nz-form-control>
+            <nz-form-control nzErrorTip="Need to put id name">
+                <div>
+                    <label for="#costS">Cost</label>
+                    <input formControlName="costS" id="costS" nz-input placeholder="example: blue shorts"/>
+                </div>
+            </nz-form-control>
+            <nz-form-control nzErrorTip="Need to put id name">
+                <div>
+                    <label for="#inStockS">inStock</label>
+                    <input formControlName="inStockS" id="inStockS" nz-input placeholder="example: blue shorts"/>
+                </div>
+            </nz-form-control>
+            <nz-form-control nzErrorTip="Need to put id name">
+                <div class="myflex">
+                    <label for="#date">Date</label>
+                    <nz-date-picker id="date" formControlName="date">Date</nz-date-picker>
+                </div>
+            </nz-form-control>
+        </form>
+    </ng-container>
+    <div *nzModalFooter>
+        <button nz-button class="cancel" nzType="default" (click)="canelShare()" [disabled]="isConfirmLoading">Cancel</button>
+        <button nz-button nzType="primary" (click)="shareItem()" [nzLoading]="isConfirmLoading" >Submit</button>
+    </div>
+</nz-modal>
+
+<!--Header and table-->
+<nz-page-header [nzGhost]="false">
+    <nz-page-header-title>
+        <i class="trigger" nz-icon [nzType]="iscol ? 'menu-unfold' : 'menu-fold'" (click)="callcol()"></i>
+        Inventory
+    </nz-page-header-title>
+    <nz-page-header-extra class="bt-header">
+        <button nz-button nzType="primary" nzShape="round" (click)="reload()">
+            <i nz-icon nzType="redo" nzTheme="outline"></i>
+        </button>
+        <button nz-button nzType="primary" nzShape="round" (click)="showDialog()">
+            <i nz-icon nzType="plus" nzTheme="outline"></i>
+            Add
+        </button>
+    </nz-page-header-extra>
+</nz-page-header>
+<br>
+<nz-table nzTableLayout="fixed" [nzShowPagination]="(items.length < 10)?false:true" [nzData]="items" class="tableHeigth background" [nzScroll]="(items.length < 10)?{}:{ y: '540px' }" [nzPaginationType]="'small'">
+    <thead>
+        <tr>
+            <th>
+                id_Name
+            </th>
+            <th>
+                tag
+            </th>
+            <th>
+                cost
+            </th>
+            <th>
+                in stock
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let i of items">
+            <td>{{i.id_Name}}</td>
+            <td>{{i.tag}}</td>
+            <td>{{i.cost}}</td>
+            <td>{{i.inStock}}</td>
+            <td>
+                <a nz-button nzType="text" [hidden]=!isresp nz-dropdown [nzDropdownMenu]="menu" [nzPlacement]="'topRight'"><i nz-icon nzType="more" nzTheme="outline"></i></a>
+                <nz-dropdown-menu #menu="nzDropdownMenu">
+                    <ul nz-menu nzSelectable>
+                      <li nz-menu-item (click)="showDialogEdit(i)"><i nz-icon nzType="edit" ></i> Edit</li>
+                      <li nz-menu-item (click)="showSharing(i)"><i nz-icon nzType="share-alt" nzTheme="outline"></i> Share</li>
+                      <li nz-menu-item nz-popconfirm nzPopconfirmTitle="Are you sure delete item?" (nzOnConfirm)="deletData(i)" (nzOnCancel)="cancel()" nzPopconfirmPlacement="topRight"><i nz-icon nzType="delete"></i> Delete</li>
+                    </ul>
+                </nz-dropdown-menu>
+                <nz-space [hidden]="isresp">
+                    <button nz-button *nzSpaceItem nzType="primary" nzShape="circle" (click)="showDialogEdit(i)"><i nz-icon nzType="edit" ></i></button>
+                    <button nz-button *nzSpaceItem nzType="primary" nzShape="circle" (click)="showSharing(i)"><i nz-icon nzType="share-alt" nzTheme="outline"></i></button>
+                    <button nz-button *nzSpaceItem nzDanger nzType="primary" nzShape="circle" nz-popconfirm nzPopconfirmTitle="Are you sure delete item?" (nzOnConfirm)="deletData(i)" (nzOnCancel)="cancel()" nzPopconfirmPlacement="topRight"><i nz-icon nzType="delete"></i></button>
+                </nz-space>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>

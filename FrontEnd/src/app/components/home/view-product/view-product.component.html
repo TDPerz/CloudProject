@@ -1,0 +1,78 @@
+<div class="container">
+    <nz-breadcrumb class="breadcrumb">
+        <nz-breadcrumb-item>
+            <a [routerLink]="['/']"><i nz-icon nzType="home"></i></a>
+        </nz-breadcrumb-item>
+        <nz-breadcrumb-item>
+            <a [routerLink]="['/products']"><span>Productos</span></a>
+        </nz-breadcrumb-item>
+        <nz-breadcrumb-item>
+            <span>{{item.title}}</span>
+        </nz-breadcrumb-item>
+    </nz-breadcrumb>
+    <div class="cont-flex">
+        <img nz-image [nzSrc]="this.item.img.url" class="img-size item-flex">
+        <div>
+            <h2 nz-typography class="title">{{item.title}}</h2>
+            <div class="space">
+                <p>
+                    {{item.desc}}
+                </p>
+                <nz-descriptions [nzColumn]="{ xxl: 3, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }">
+                    <nz-descriptions-item nzTitle="Tag"><nz-tag>{{item.tag}}</nz-tag></nz-descriptions-item>
+                    <nz-descriptions-item nzTitle="En stock">{{item.inStock}}</nz-descriptions-item>
+                    <nz-descriptions-item nzTitle="Costo">{{item.cost}}</nz-descriptions-item>
+                </nz-descriptions>
+                <h3>Puntaje de: </h3>
+                <nz-space [nzSize]="'small'" nzAlign="center">
+                    <nz-rate nz-tooltip [nzTooltipTitle]="rateUserTemplate" [nzTooltipTrigger]="haveUser()? 'hover': null" [(ngModel)]="puntaje" (ngModelChange)="setValue($event)" *nzSpaceItem></nz-rate>
+                    <p *nzSpaceItem class="puntaje">
+                        <span>
+                            <i nz-icon nzType="star" nzTheme="outline"></i>
+                        </span>
+                        {{getRate()}}</p>
+                    <ng-template #rateUserTemplate>
+                        <span>Para calificar esta publicacion necesitas registrarte o Iniciar secion</span>
+                    </ng-template>
+                </nz-space>
+                <nz-divider></nz-divider>
+            </div>
+        </div>
+    </div>
+    <nz-divider nzText="Comentarios" nzOrientation="left"></nz-divider>
+    <form nz-form [formGroup]="formComment" nzLayout="vertical" [hidden]="haveUser()" (ngSubmit)="subirComentario()">
+        <nz-form-item>
+          <nz-form-control>
+            <nz-textarea-count [nzMaxCharacterCount]="100">
+              <textarea rows="4" formControlName="comment" nz-input></textarea>
+            </nz-textarea-count>
+          </nz-form-control>
+          <nz-form-item>
+            <nz-form-control>
+              <button nz-button nzType="primary" class="bt-login">Comentar</button>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-form-item>
+    </form>
+    <nz-comment *ngFor="let comm of item.comment" nzAuthor="{{comm.user}}">
+        <nz-avatar nz-comment-avatar nzIcon="user"></nz-avatar>
+        <nz-comment-content>
+            <p nz-typography [nzEditable]="isEditable(comm)" (nzContentChange)="editContent($event, comm)" [(nzContent)]="comm.content">
+            </p>
+        </nz-comment-content>
+        <nz-comment-action>
+            <i nz-tooltip [nzTooltipTitle]="titleTemplate" [nzTooltipTrigger]="haveUser()? 'hover': null" nzTitle="Like" [nzTheme]="((user? comm.likes.indexOf(user.user):-1)!=-1)? 'twotone' : 'outline' " nz-icon nzType="like" (click)="setLike(comm)" ></i>
+            <span class="like-line">{{getLike(comm)}}</span>
+            <ng-template #titleTemplate hidden="false">
+                <span>Para calificar necesitas registrarte o Iniciar secion</span>
+            </ng-template>
+        </nz-comment-action>
+        <nz-comment-action>
+            <i nz-tooltip [nzTooltipTitle]="titleTemplate" [nzTooltipTrigger]="haveUser()? 'hover': null" nzTitle="Dislike" nz-icon nzType="dislike" [nzTheme]="((user? comm.dislikes.indexOf(user.user):-1)!=-1)? 'twotone' : 'outline'" (click)="setDislikes(comm)"></i>
+            <span class="like-line">{{ getDislikes(comm) }}</span>  
+            <ng-template #titleTemplate>
+                <span>Para calificar necesitas registrarte o Iniciar secion</span>
+            </ng-template>
+        </nz-comment-action>
+    </nz-comment>
+</div>

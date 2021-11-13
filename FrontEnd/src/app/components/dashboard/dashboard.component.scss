@@ -1,0 +1,151 @@
+nz-layout{
+    width: 100%;
+    height: 100vh;
+}
+
+.size-sider{
+    width: auto;;
+    color: white;
+}
+
+.trigger {
+    font-size: 18px;
+    line-height: 64px;
+    padding: 0 24px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.trigger:hover {
+    color: #1890ff;
+}
+
+nz-header {
+    background: #fff;
+    padding: 0;
+}
+
+
+.container{
+    padding: 2% 5%;
+    background-color: #dfe6e9;
+}
+
+.space-align-block .mock-block {
+    display: inline-block;
+    padding: 32px 8px 16px;
+    background: rgba(150, 150, 150, 0.2);
+}
+
+.cont-size{
+    height: 100vh;
+    min-height: 100vh;
+    position: relative;
+}
+
+::ng-deep .ant-drawer-content{
+    background-color: #212121;
+}
+::ng-deep .ant-drawer-header{
+    color: white;
+    background-color: #212121;
+}
+
+.left-A{
+    display: flex;
+    flex-direction: row-reverse;
+    text-align: left;
+    width: 100%;
+    float: right;
+}
+
+.h2-menu{
+    width: 100%;
+    color: white;
+}
+
+.divider-color{
+    color: white;
+    background-color: white;
+}
+
+.title-in-line{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+[nzTitle]{
+    color: white;
+}
+
+.menu-size{
+    width: 100%;
+}
+
+.menu-dropmenu{
+    background-color: white;
+}
+
+.menu-item-drop{
+    background-color: white;
+}
+
+.menu-Botton{
+    position: absolute;
+    width: 100%;
+    bottom: 0%;
+}
+
+nz-sider{
+    background-color: #212121;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    height: 100%;
+    z-index: 1;
+}
+
+[nz-menu]{
+    background-color: #212121;
+}
+
+[nz-submenu]{
+    background-color: #212121;
+}
+
+.ul-special{
+    border: 1px white solid;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.bt-in-bot{
+    width: 100%;
+    color: white;
+}
+
+.bt-in-bot:hover{
+    background-color: #1890FF;
+}
+
+.sizeall{
+    width: 100vw;
+    height: 100vh;
+}
+
+.header-menu{
+    margin-right: -5px;
+    margin-left: auto;
+}
+
+@media only screen and (max-width: 768px){
+    .container{
+        padding: 2% 0%;
+    }
+    .menu-Botton{
+        position: absolute;
+        width: 80%;
+        bottom: 0%;
+    }
+}

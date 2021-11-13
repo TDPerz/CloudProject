@@ -1,0 +1,19 @@
+<div class="bg-Login">
+    <div class="container">
+      <div class="contCenter">
+        <div class="form-size border-Shadow form-background">
+            <nz-result class="result" nzTheme="dark">
+                <i nz-icon nz-result-icon nzType="{{icono}}" nzTheme="outline"></i>
+                <div nz-result-title>
+                    {{status}}
+                </div>
+                <div nz-result-content>
+                    Ya esta todo listo
+                </div>
+                <div nz-result-extra [hidden]="loading">
+                    <button nz-button nzType="primary">Volver al inicio</button>
+                </div>
+            </nz-result>
+        </div>
+    </div>
+</div>

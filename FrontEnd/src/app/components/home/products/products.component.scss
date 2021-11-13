@@ -1,0 +1,52 @@
+.allProduct{
+    margin: 5px 20%;
+    position: relative;
+    width: auto;
+}
+
+.card-size{
+    height:300px;
+    margin-bottom: 5px;
+}
+
+.img-size{
+    width: 300px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.widh-pag{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.bt{
+    margin: 2px 5px;
+}
+
+.input{
+    width: auto;
+    margin: 5px 20px;
+}
+
+.center-pagination{
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.margin-text{
+    margin: 25px 15%;
+}
+
+@media only screen and (max-width:  768px){
+    .allProduct{
+        margin: 5px 10%;
+    }
+    .margin-text{
+        margin: 5px 5%;
+    }
+}

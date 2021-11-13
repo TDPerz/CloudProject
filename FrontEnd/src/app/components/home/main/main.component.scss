@@ -1,0 +1,76 @@
+.carousel-size{
+    text-align: center;
+    width: 100vw;
+    height: 80vh;
+}
+
+.bg-Div{
+    background-color: white;
+    margin: 0px;
+    padding: 5% 0px;
+}
+
+nz-carousel{
+    height: 70vh;
+    max-height: 80vh;
+    background-color: white;
+}
+
+[nz-carousel-content] {
+    text-align: center;
+    height: 80vh;
+    max-height: 80vh;
+    background: #364d79;
+    color: #fff;
+}
+
+.carousel-item-size{
+    height: 80vh;
+    width: 100vw;
+}
+
+.carusel-background{
+    height: 80vh;
+    max-height: 80vh;
+    width: 100vw;
+    background-position: center;
+    background-size: cover;
+    background-color: white;
+}
+
+.dt{
+    background-color: rgba($color: #212121, $alpha: .75);
+    padding-top: 50px;
+    width: 100vw;
+    position: absolute;
+    padding-bottom: 50px;
+    bottom: 0;
+}
+
+.list{
+    margin: 0% 25%;
+}
+
+.list-item{
+    width: auto;
+    transition: .5s ;
+}
+
+nz-footer{
+    margin-top: 0px;
+    background-color: var(--colo-f);
+    color: white;
+}
+
+// .list-item:hover{
+//     transform: translateY(-2);
+//     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+// }
+
+
+@media only screen and (max-width:  768px){
+    .list{
+        margin: 5% 2%;
+        width: auto;
+    }
+}

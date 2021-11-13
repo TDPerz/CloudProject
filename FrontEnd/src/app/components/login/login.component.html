@@ -1,0 +1,45 @@
+<div class="bg-Login">
+  <div class="container">
+    <div class="contCenter">
+      <form nz-form [formGroup]="loginForm" class="form-size border-Shadow form-background" (ngSubmit)="login()">
+        <div class="header-color">
+          <i class="p-icon" nz-icon nzType="home" nzTheme="outline"></i>
+          <span>Iniciar Sesion</span>
+        </div>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="{{getEmailError()}}">
+            <nz-input-group nzPrefixIcon="user">
+              <input formControlName="email" nz-input placeholder="Username" />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control nzErrorTip="{{getPasswordError()}}">
+            <nz-input-group nzPrefixIcon="lock">
+              <input formControlName="password" nz-input type="password" placeholder="Password" />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <div nz-row class="login-form-margin">
+          <div nz-col [nzSpan]="12">
+            <label nz-checkbox formControlName="remember">
+              <span style="color: white;">Recordar me</span>
+            </label>
+          </div>
+          <div nz-col [nzSpan]="12">
+            <a class="login-form-forgot">Forgot password</a>
+          </div>
+        </div>
+        <nz-form-item>
+          <nz-form-control>
+            <button nz-button nzType="primary" class="bt-login" [disabled]="!loginForm.valid">Log in</button>
+          </nz-form-control>
+        </nz-form-item>
+        <div class="center-text">
+          o 
+          <a routerLink="/register">Registrate!</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

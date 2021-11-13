@@ -1,0 +1,182 @@
+.bg-d{
+    background-color: var(--bg-color);
+}
+
+nz-content{
+    background-color:white;
+}
+
+.dropMenu-bg{
+    background-color: var(--bg-color);
+    color: white;
+}
+
+.dropMenu-item{
+    color: white;
+    background-color: var(--bg-color);
+}
+
+.dropMenu-item:hover{
+    background-color: #333333;
+}
+
+nz-layout{
+    width: 100%;
+    height: auto;
+}
+
+nz-footer{
+    background-color: var(--colo-f);
+    color: white;
+    bottom: 0%;
+}
+
+.logo{
+    cursor: pointer;
+    color: white;
+    font-size: 40px;
+}
+
+.logo:hover{
+    text-shadow: 0 4px 8px 0 rgba(#dff, 0.2), 0 6px 20px 0 rgba(#dff, 0.19);
+}
+
+.nav{
+    width: 100%;
+    display:flex;
+    flex-direction: row;
+}
+
+.navbarUl{
+    float: right;
+    color: white;
+    display:flex;
+    flex-direction: row;
+    transition: 1s;
+}
+
+.nav-items{
+    display: flex;
+    flex-direction: row-reverse;
+    width: 100%;
+}
+
+.collButton{
+    visibility: hidden;
+    margin: 5px 0px;
+    width: 50px;
+    height: 50px;
+}
+
+
+.menu-content{
+    padding: 15% 10%;
+}
+
+.colo-a{
+    color: white;
+}
+
+.icon-class{
+    z-index: 2;
+}
+
+.icon-pading{
+    margin-left: 5px;
+}
+
+.pading-span{
+    margin-left: 5px;
+}
+
+.navbar-items{
+   list-style: none;
+   color: white;
+   margin: 0px 15px;
+   transition: 1s;
+   cursor: pointer;
+}
+
+.menu-collapse{
+    width: 100%;
+    // height: 100%;
+    background-color: var(--bg-color);
+    color: white;
+}
+
+
+::ng-deep .ant-drawer-content{
+    background-color: var(--bg-color);
+ }
+// ::ng-deep .ant-drawer-header{
+//     background-color: rgba($color: var(--bg-color), $alpha: .75);
+// }
+// ::ng-deep .ant-drawer-body{
+//     background-color: rgba($color: var(--bg-color), $alpha: .75);
+// }
+
+nz-header{
+    // overflow: hidden;
+    color: white;
+    background-color: var(--bg-color);
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+    padding-left:20%;
+    padding-right: 20%;
+    transition: .5s;
+}
+
+.cont-size{
+    height: 100vh;
+    min-height: 100vh;
+    position: relative;
+}
+
+.menu-Botton{
+    position: absolute;
+    width: 100%;
+    bottom: 0%;
+    left: 0%;
+    height: 50px;
+}
+
+.dropMenu-border{
+    border-top: 1px solid whitesmoke;
+    border-radius: 5px;
+    width: auto;
+}
+
+.divider-color{
+    color:white;
+}
+
+.text-menu{
+    display: block;
+    margin: 0px auto;
+    width: 100%;
+    text-align: center;
+}
+
+.bt-in-bot{
+    color: white;
+}
+
+.bt-in-bot:hover{
+    background-color: #1890FF;
+}
+
+.icon-menu{
+    margin: 0px 3px;
+}
+
+@media only screen and (max-width: 768px) {
+    nz-header {
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+    .collButton{
+        visibility: visible;
+    }
+}

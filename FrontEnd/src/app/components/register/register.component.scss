@@ -1,0 +1,144 @@
+.bg-Login{
+    width: 100vw;
+    height: 100vh;
+    background-image: url('https://res.cloudinary.com/sekaijk/image/upload/v1631471199/VentaRopa/BG_n7unmq.png');
+    background-position: center;
+    background-size: cover;
+}
+
+.border-Shadow {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.bt-login{
+    float: right;
+    width: 100%;
+}
+
+.form-size{
+    width: 400px;
+    display: block;
+    padding: 2em;
+}
+
+.title{
+    text-align: center;
+    color: black;
+    text-shadow: black;
+}
+
+.form-background{
+    background-color: rgba($color: #2d3436, $alpha: .9);
+}
+
+.contCenter{
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translateY(-50%);
+    transform: translateX(-50%);
+}
+
+.h1-clas{
+    text-align: center;
+    color: white;
+}
+
+.divider-class{
+    color: white;
+}
+
+.p-icon{
+    margin: 0px 5px;
+}
+
+.header-color{
+    color: white;
+    block-size: 40px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.center-text{
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px white solid;
+    color: white;
+}
+
+.login-form-margin{
+    margin-bottom: 10px;
+}
+
+.colorlabel{
+    color: white;
+}
+
+[nz-result-title]{
+    color: white;
+}
+
+[nz-result-content]{
+    text-align: center;
+    background-color: transparent;
+}
+
+.colorcont{
+    color: white;
+}
+
+.input-token{
+    margin: 5px 0px;
+    appearance: textfield;
+}
+
+.span-reload{
+    margin: 0px 5px;
+}
+
+.contStatus{
+    margin: 5px 0px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+h3{
+    color: white;
+}
+
+.container{
+    width: 100vw;
+    height: 100vh;
+    // position: absolute;
+    position: relative;
+    // padding: auto auto;
+    max-width: 100vw;
+    max-height: 100vh;
+}
+
+@media only screen and (max-width: 768px){
+    .container{
+        padding: 5%;
+        background-color: rgba($color: #171010, $alpha: .5);
+    }
+    .form-background{
+        background-color: transparent;
+    }
+    .contCenter{
+        top: 10%;
+        background-color: transparent;
+    }
+    .title{
+        color: white;
+    }
+    .form-size{
+        width: 75vw;
+    }
+    .border-Shadow{
+        box-shadow: none;
+    }
+}

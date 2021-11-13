@@ -1,0 +1,89 @@
+<nz-drawer nzWidth="75%" [nzClosable]="false" [nzVisible]="active" [nzPlacement]="'left'" (nzOnClose)="active = !active">
+  <ng-container *nzDrawerContent class="cont-size">
+    <div class="logo">
+      <p>{{NavTitle}}</p>
+    </div>
+    <ul nz-menu nzMode="vertical" nzTheme="dark" class="menu-collapse">
+      <li nz-menu-item>Home</li>
+      <li nz-menu-item>About</li>
+      <li nz-menu-item>Contact</li>
+    </ul>
+    <div *ngIf="user == null; else userView">
+      <button class="menu-Botton bt-in-bot" nz-button nzType="text" nz-dropdown [nzDropdownMenu]="menucollapse" [nzPlacement]="'bottomCenter'"><i nz-icon nzType="user" nzTheme="outline"></i><span>Account</span></button>
+      <nz-dropdown-menu #menucollapse="nzDropdownMenu">
+        <ul nz-menu class="dropMenu-bg dropMenu-border">
+          <li nz-menu-item class="dropMenu-item text-menu" routerLink="/login"><i nz-icon nzType="login" class="icon-menu" nzTheme="outline"></i><span class="icon-menu">Iniciar Sesion</span></li>
+          <li nz-menu-divider class="dropMenu-item"></li>
+          <li nz-menu-item class="dropMenu-item text-menu" routerLink="/register"><i nz-icon nzType="user-add" class="icon-menu" nzTheme="outline"></i><span class="icon-menu">Registrarse</span></li>
+        </ul>
+      </nz-dropdown-menu>
+    </div>
+    <ng-template #userView>
+      <button class="menu-Botton bt-in-bot" nz-button nzType="text" nz-dropdown [nzDropdownMenu]="menucollapse" [nzPlacement]="'bottomCenter'">
+        <nz-avatar class="icon-class" nzIcon="user"></nz-avatar>
+        <span class="pading-span">{{user.user}}</span>
+        <i nz-icon nzType="caret-up" nzTheme="fill"></i>
+      </button>
+      <nz-dropdown-menu #menucollapse="nzDropdownMenu">
+        <ul nz-menu class="dropMenu-bg dropMenu-border">
+          <li nz-menu-item class="dropMenu-item text-menu" hidden="('Admin' === user.role)"><i nz-icon nzType="dashboard" class="icon-menu" nzTheme="outline"></i><span class="icon-menu">Admin</span></li>
+          <li nz-menu-item class="dropMenu-item text-menu"><i nz-icon nzType="user" class="icon-menu" nzTheme="outline"></i><span class="icon-menu">Mi cuenta</span></li>
+          <li nz-menu-item class="dropMenu-item text-menu"><i nz-icon nzType="setting" class="icon-menu" nzTheme="outline"></i><span class="icon-menu">Registrarse</span></li>
+          <li nz-menu-divider class="dropMenu-item divider-color"></li>
+          <li nz-menu-item class="dropMenu-item text-menu" (click)="logOut()"><i nz-icon nzType="logout" class="icon-menu" nzTheme="outline"></i><span class="icon-menu">Cerrar sesion</span></li>
+        </ul>
+      </nz-dropdown-menu>
+    </ng-template>
+  </ng-container>
+</nz-drawer>
+<nz-layout>
+  <nz-header>
+    <div class="nav">
+      <div class="logo">
+        <p>{{NavTitle}}</p>
+      </div>
+      <div class="nav-items">
+        <button nz-button nzType="primary" class="collButton" (click)="active = !active"><i nz-icon nzType="menu" nzTheme="outline"></i></button>
+        <ul nzMode="horizontal" class="navbarUl" [hidden]="isCollapse">
+          <li class="navbar-items" routerLink="">Home</li>
+          <li class="navbar-items">About</li>
+          <li class="navbar-items">
+            <p>Contact</p>
+          </li>
+          <li class="navbar-items">
+            <div *ngIf="user == null; else userView">
+              <button nz-button nzType="primary" nz-dropdown [nzDropdownMenu]="menuAccoutA" [nzPlacement]="'bottomRight'"><i nz-icon nzType="user" nzTheme="outline"></i><span>Account</span></button>
+              <nz-dropdown-menu #menuAccoutA="nzDropdownMenu">
+                <ul nz-menu class="dropMenu-bg">
+                  <li nz-menu-item class="dropMenu-item" routerLink="/register"><i nz-icon nzType="user-add" class="icon-menu" nzTheme="outline"></i><span class="icon-menu">Registrarse</span></li>
+                  <li nz-menu-divider class="dropMenu-item"></li>
+                  <li nz-menu-item class="dropMenu-item" routerLink="/login"><i nz-icon nzType="login" class="icon-menu" nzTheme="outline"></i><span class="icon-menu">Iniciar Sesion</span></li>
+                </ul>
+              </nz-dropdown-menu>
+            </div>
+            <ng-template #userView>
+              <a class="colo-a" nz-dropdown nzTrigger="click" [nzDropdownMenu]="userMenu" [nzPlacement]="'bottomRight'">
+                <nz-avatar class="icon-class" nzIcon="user"></nz-avatar>
+                <span class="pading-span">{{user.user}}</span>
+                <i class="icon-pading" nz-icon nzType="down"></i>
+              </a>
+              <nz-dropdown-menu #userMenu="nzDropdownMenu">
+                <ul nz-menu>
+                  <li nz-menu-item [hidden]="isAdmin" routerLink="/admin/dashboard"><i nz-icon nzType="dashboard" class="icon-menu" nzTheme="outline"></i><span class="icon-menu">Admin</span></li>
+                  <li nz-menu-item ><i nz-icon nzType="user" class="icon-menu" nzTheme="outline"></i><span class="icon-menu">Mi cuenta</span></li>
+                  <li nz-menu-item ><i nz-icon nzType="setting" class="icon-menu" nzTheme="outline"></i><span class="icon-menu">Ajustes</span></li>
+                  <li nz-menu-divider class="dropMenu-item divider-color"></li>
+                  <li nz-menu-item (click)="logOut()"><i nz-icon nzType="logout" class="icon-menu" nzTheme="outline"></i><span class="icon-menu">Cerrar sesion</span></li>
+                </ul>
+              </nz-dropdown-menu>
+            </ng-template>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nz-header>
+  <nz-content>
+    <router-outlet></router-outlet>
+  </nz-content>
+  <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer>
+</nz-layout>

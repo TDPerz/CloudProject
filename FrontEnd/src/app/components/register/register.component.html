@@ -1,0 +1,84 @@
+<div class="bg-Login">
+    <div class="container">
+      <div class="contCenter">
+        <form [hidden]="isActivate" nz-form [formGroup]="registerForm" class="form-size border-Shadow form-background" (ngSubmit)="register()"> 
+            <div class="header-color">
+                <i class="p-icon" nz-icon nzType="home" nzTheme="outline"></i>
+                <span>Registrate</span>
+            </div>
+            <nz-form-item>
+                <nz-form-label nzRequired nzFor="name"><span class="colorlabel">Nombre</span></nz-form-label>
+                <nz-form-control nzErrorTip="{{(this.registerForm.controls['name'].hasError('required')? 'Se necesita un nombre': '')}}">
+                    <input id="name" formControlName="name" nz-input placeholder="name"/>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label nzRequired nzFor="user"><span class="colorlabel">Usuario</span></nz-form-label>
+                <nz-form-control [nzXs]="24" nzErrorTip="{{(this.registerForm.controls['user'].hasError('required')? 'Se necesita un nombre de usuario': '')}}">
+                    <input id="user" formControlName="user" nz-input placeholder="User" />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label nzRequired nzFor="email"><span class="colorlabel">Correo</span></nz-form-label>
+                <nz-form-control [nzXs]="24" nzErrorTip="{{getEmailError()}}">
+                    <input id="email" formControlName="email" nz-input placeholder="Email" />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label nzRequired nzFor="password"><span class="colorlabel">Contraseña</span></nz-form-label>
+                <nz-form-control [nzXs]="24" nzErrorTip="{{getPasswordError()}}">
+                    <input id="password" formControlName="password" nz-input type="password" placeholder="Password" />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label nzRequired nzFor="password"><span class="colorlabel">Contraseña</span></nz-form-label>
+                <nz-form-control [nzXs]="24" nzErrorTip="{{getCheckPasswordError()}}">
+                    <input id="passwordCheck" formControlName="checkPassword" nz-input type="password" placeholder="Confirm your Password" (ngModelChange)="updateConfirmValidator()"/>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-control>
+                <button nz-button nzType="primary" class="bt-login" [disabled]="!registerForm.valid">Registrarse</button>
+                </nz-form-control>
+            </nz-form-item>
+            <div class="center-text">
+                si ya tienes usuario inicia secion
+                <span>
+                    <a>
+                        Aqui!
+                    </a>
+                </span>
+            </div>
+        </form>
+        <div [hidden]="!isActivate" class="form-size border-Shadow form-background">
+            <nz-result class="result" nzTheme="dark">
+                <i nz-icon nz-result-icon nzType="{{icono}}" nzTheme="outline"></i>
+                <div nz-result-title>
+                    {{status}}
+                </div>
+                <div nz-result-content>
+                    <div class="colorcont" [hidden]="!loading">
+                        <div class="contStatus">
+                            {{contentStatus}}
+                        </div>
+                        <div [hidden]="isTimer">
+                            <span class="span-reload">Volver a enviar el codigo </span>
+                            <button nz-button nzType="primary" nzShape="circle" (click)="reloadToken()"><i nz-icon nzType="reload" nzTheme="outline"></i></button>
+                        </div>
+                        <div [hidden]="!isTimer">
+                            <p>Tiempo faltante: {{ currentTime.minutes | number:'2.0-0' }} : {{currentTime.seconds | number:'2.0-0'}}</p>
+                            <form nz-form [formGroup]="tokenInput" (ngSubmit)="registerToken()">
+                                <nz-form-control [nzXs]="24" nzErrorTip="{{tokenError()}}">
+                                    <input type="number" formControlName="token" class="input-token" nz-input placeholder="Ingresa el token" nzOverlayClassName="numeric-input">
+                                </nz-form-control>
+                                <button nz-button nzType="primary" [disabled]="!tokenInput.valid" [nzLoading]="confirm">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                    <button nz-button nzType="primary" [hidden]="loading" (click)="goHome()">Volver al inicio</button>
+                </div>
+            </nz-result>
+        </div>
+      </div>
+    </div>
+  </div>

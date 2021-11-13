@@ -1,0 +1,55 @@
+<div class="margin-text">
+  <nz-page-header [nzGhost]="false">
+    <nz-page-header-title>Productos</nz-page-header-title>
+    <nz-page-header-extra>
+      <button nz-button nzType="primary" nzShape="round" (click)="reloadData()">
+        <i nz-icon nzType="reload" nzTheme="outline"></i>
+        Refrescar
+      </button>
+    </nz-page-header-extra>
+    <nz-page-header-content>
+      <span>Buscar: </span>
+      <nz-input-group class="input" [nzSuffix]="suffixIconSearch">
+        <input type="text" id="search" nz-input placeholder="Buscar el producto" [(ngModel)]="searchText"/>
+      </nz-input-group>
+      <ng-template #suffixIconSearch>
+        <i nz-icon nzType="search" (click)="transform(rawProd, searchText)"></i>
+      </ng-template>
+      <span>Ordenar por: </span>
+      <button class="bt" nz-button nzType="default" nzShape="round" (click)="sortName()">
+          <i nz-icon [nzType]="nameO ? 'caret-down' : 'caret-up'" nzTheme="fill"></i>
+        Nombre
+      </button>
+      <button class="bt" nz-button nzType="default" nzShape="round" (click)="sortDate()">
+        <i nz-icon [nzType]="dateO ? 'caret-down' : 'caret-up'" nzTheme="fill"></i>
+        Fecha
+      </button>
+    </nz-page-header-content>
+  </nz-page-header>
+</div>
+<nz-list nzGrid class="allProduct" *ngIf="!isNull; else noItems">
+  <div nz-row [nzGutter]="16">
+      <div nz-col [nzXXl]="8" [nzXl]="4" [nzLg]="8" [nzMd]="12" [nzSm]="24" [nzXs]="24" *ngFor="let item of prod">
+      <nz-list-item>
+          <nz-card nzHoverable class="card-size" [nzCover]="coverTemplate" (click)="getItem(item)">
+              <nz-card-meta
+                nzTitle="{{item.title}}"
+                nzDescription="{{item.desc}}"
+              ></nz-card-meta>
+            </nz-card>
+            <ng-template #coverTemplate>
+              <img alt="example" class="img-size" src="{{item.img.url}}" />
+            </ng-template>
+      </nz-list-item>
+      </div>
+  </div>
+</nz-list>
+<ng-template #noItems>
+  <div class="widh-pag" >
+    <nz-empty></nz-empty>
+  </div>
+</ng-template>
+
+<div class="widh-pag" >
+  <nz-pagination class="center-pagination" [nzPageSize]="9" (nzPageIndexChange)="pageChange($event)" [nzPageIndex]="page" [nzTotal]="total" nzSimple></nz-pagination> 
+</div>

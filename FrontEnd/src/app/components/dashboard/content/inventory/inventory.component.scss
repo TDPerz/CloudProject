@@ -1,0 +1,74 @@
+.background{
+    background-color: white;
+    padding: 0.2em;
+}
+
+.bt-header{
+    line-height: 64px;
+    padding: 0 24px;
+}
+
+.tableHeigth{
+    height: 80%;
+    margin-bottom: 0;
+}
+
+.cancel{
+    color:currentColor;
+}
+
+.cancel:hover{
+    color: red;
+    border-color: red;
+}
+
+.title-drop{
+    display: flex;
+    flex-direction: row warp;
+}
+
+.drop-style{
+    width: 75%;
+    height: 10em;
+}
+
+.previe-img{
+    width: 100%;
+    object-fit: cover;
+}
+
+.title-tag{
+    width: 100%;
+    margin-left: 0%;
+}
+
+.myflex{
+    display: flex;
+    flex-direction: column;
+}
+
+.felx-img-input{
+    display: flex;
+    flex-direction: row;
+}
+
+.trigger {
+    font-size: 18px;
+    line-height: 64px;
+    padding: 0 24px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.trigger:hover {
+    color: #1890ff;
+}
+
+@media only screen and (max-width: 768px){
+    .trigger{
+        padding: 0 0px;
+    }
+    .bt-header{
+        padding: 0 0px;
+    }
+}
