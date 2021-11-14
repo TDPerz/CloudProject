@@ -39,8 +39,13 @@ export class DashboardComponent implements OnInit {
   }
 
   logOut(){
-    localStorage.removeItem('token')
-    this.route.navigate(['login'])
+    if(this.cookie.check('token')){
+      this.cookie.delete("token")
+    }
+    else{
+      sessionStorage.removeItem('token')
+    }
+    this.route.navigate(['/login'])
   }
 
   selectConten(o:string){

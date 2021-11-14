@@ -27,8 +27,6 @@
       <nz-dropdown-menu #menucollapse="nzDropdownMenu">
         <ul nz-menu class="dropMenu-bg dropMenu-border">
           <li nz-menu-item class="dropMenu-item text-menu" hidden="('Admin' === user.role)"><i nz-icon nzType="dashboard" class="icon-menu" nzTheme="outline"></i><span class="icon-menu">Admin</span></li>
-          <li nz-menu-item class="dropMenu-item text-menu"><i nz-icon nzType="user" class="icon-menu" nzTheme="outline"></i><span class="icon-menu">Mi cuenta</span></li>
-          <li nz-menu-item class="dropMenu-item text-menu"><i nz-icon nzType="setting" class="icon-menu" nzTheme="outline"></i><span class="icon-menu">Registrarse</span></li>
           <li nz-menu-divider class="dropMenu-item divider-color"></li>
           <li nz-menu-item class="dropMenu-item text-menu" (click)="logOut()"><i nz-icon nzType="logout" class="icon-menu" nzTheme="outline"></i><span class="icon-menu">Cerrar sesion</span></li>
         </ul>
@@ -70,8 +68,6 @@
               <nz-dropdown-menu #userMenu="nzDropdownMenu">
                 <ul nz-menu>
                   <li nz-menu-item [hidden]="isAdmin" routerLink="/admin/dashboard"><i nz-icon nzType="dashboard" class="icon-menu" nzTheme="outline"></i><span class="icon-menu">Admin</span></li>
-                  <li nz-menu-item ><i nz-icon nzType="user" class="icon-menu" nzTheme="outline"></i><span class="icon-menu">Mi cuenta</span></li>
-                  <li nz-menu-item ><i nz-icon nzType="setting" class="icon-menu" nzTheme="outline"></i><span class="icon-menu">Ajustes</span></li>
                   <li nz-menu-divider class="dropMenu-item divider-color"></li>
                   <li nz-menu-item (click)="logOut()"><i nz-icon nzType="logout" class="icon-menu" nzTheme="outline"></i><span class="icon-menu">Cerrar sesion</span></li>
                 </ul>

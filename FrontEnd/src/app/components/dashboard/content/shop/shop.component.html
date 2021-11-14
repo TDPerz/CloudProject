@@ -119,7 +119,8 @@
                         </ul>
                     </nz-dropdown-menu>
                     <nz-space [hidden]="isresp">
-                        <button nz-button *nzSpaceItem nzType="primary" nzShape="circle" (click)="editItem(i)"><i nz-icon nzType="edit" ></i></button>
+                        <button nz-button *nzSpaceItem nzType="primary" nzShape="circle" (click)="editItem(i)"><i nz-icon nzType="edit"></i></button>
+                        <button nz-button *nzSpaceItem nzType="primary" nzShape="circle" (click)="preview(i)"><i nz-icon nzType="eye"></i></button>
                         <button nz-button *nzSpaceItem nzDanger nzType="primary" nzShape="circle" nz-popconfirm nzPopconfirmTitle="Quieres borrarlo?" (nzOnConfirm)="confirmDelet(i)" (nzOnCancel)="cancelDelet()" nzOkText="si" nzCancelText="no"><i nz-icon nzType="delete"></i></button>
                     </nz-space>
                 </td>

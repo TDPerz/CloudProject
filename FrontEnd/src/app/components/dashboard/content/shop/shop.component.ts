@@ -20,6 +20,8 @@ export class ShopComponent implements OnInit {
   editModel = false;
   editForm:FormGroup;
   urlIEdit = "error"
+  _id = ""
+  img:any
   getChange = false;
   files:File[] = []
   isConfirmLoading = false;
@@ -90,7 +92,8 @@ export class ShopComponent implements OnInit {
 
   editItem(i:any){
     this.editModel = true
-    this.urlIEdit = i.img
+    this._id = i._id
+    this.img = i.img
     this.editForm.controls['titleE'].setValue(i.title)
     this.editForm.controls['tagE'].setValue(i.tag)
     this.editForm.controls['descE'].setValue(i.desc)
@@ -107,6 +110,7 @@ export class ShopComponent implements OnInit {
         console.log("hay una imagen?"+ ((this.files.length == 0)? "si" : "no"))
         console.log("pasa algo?");
         this.editModel = false;
+        this._id=""
         this.editForm.reset()
       }
       else{
@@ -120,8 +124,61 @@ export class ShopComponent implements OnInit {
   }
 
   submitEdit(){
-    let img = "";
-    console.log("hay algun cambio? " + ((this.getChange)? "Si": "no "))
+    this.isConfirmLoading = true
+    if(!this.files[0]){
+      let d = { 
+        img: this.img,
+        title: this.editForm.value.titleE,
+        desc: this.editForm.value.descE,
+        tag: this.editForm.value.tagE,
+        date: this.editForm.value.dateE,
+        cost: this.editForm.value.costE,
+        inStock: this.editForm.value.inStockE
+      }
+      this.backEnd.editShareItem(this._id,d).subscribe((x:any)=>{
+        if(x.Status == 0){
+          this.editForm.reset()
+          this.message.success(x.Mensaje)
+          this.isConfirmLoading = false
+          this.img = null
+          this._id = ""
+          this.reload()
+        }
+        this.isConfirmLoading = false
+        this.editModel = false;
+      })
+    }
+    else{
+      let im = ""
+      const file_data = this.files[0];
+      const data = new FormData();
+      data.append('file', file_data)
+      data.append('upload_preset', 'webVentaRopa')
+      data.append('cloud_name', 'sekaijk');
+      this.backEnd.uploadImage(data).subscribe((x:any) =>{
+        if(x){
+          let d = { 
+            img:{ url: x.secure_url, public_id: x.public_id},
+            title: this.editForm.value.titleE,
+            desc: this.editForm.value.descE,
+            tag: this.editForm.value.tagE,
+            date: this.editForm.value.dateE,
+            cost: this.editForm.value.costE,
+            inStock: this.editForm.value.inStockE
+          }
+          this.backEnd.editShareItem(this._id,d).subscribe((x:any)=>{
+            if(x.Status == 0){
+              this.editForm.reset()
+              this.message.success(x.Mensaje)
+              this.isConfirmLoading = false
+              this.reload()
+            }
+            this.isConfirmLoading = false
+            this.editModel = false;
+          })
+        }
+      })
+    }
   }
 
   onSelect(event:any) {
@@ -140,6 +197,13 @@ export class ShopComponent implements OnInit {
 
   cancelClose(){
     this.editModel = true;
+  }
+
+  preview(i:any){
+    var url = this.route.serializeUrl(
+      this.route.createUrlTree([`/product/${i._id}`])
+    );
+    window.open(url, '_blank')
   }
 
   confirmDelet(i:any){

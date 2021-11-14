@@ -207,7 +207,7 @@ export class BackEndService {
 
   /**
    * edita un elemento publicado
-   * @param oldTitle Titulo antiguo del item
+   * @param _id Id de la publicacion
    * @param title Titulo nuevo del item
    * @param img Imagen nuevo del item
    * @param desc Descripcion nuevo del item
@@ -217,8 +217,9 @@ export class BackEndService {
    * @param inStock Cuanto producto hay nuevo del item
    * @returns Retorna la informacion de la api
    */
-  editShareItem(oldTitle:string, title:string, img:string, desc:string, tag:string, date:string, cost:string, inStock:string){
-    return this.http.post<any>(api+'/clothe/edit/'+ oldTitle, {title, img, desc, tag, date, cost, inStock}, this.httpOptions);
+  editShareItem(_id:string, item:any){
+    console.log(item)
+    return this.http.put<any>(api+'/clothe/edit/'+ _id, item, this.httpOptions);
   }
 
   /**

@@ -60,7 +60,6 @@ export class ViewProductComponent implements OnInit {
             this.backEnd.getShopItem(this.act.snapshot.paramMap.get('product') || '').subscribe(x => {
               if (x.Status == 0) {
                 this.item = x.item;
-                this.formComment.reset()
               }
             })
           }
@@ -72,7 +71,6 @@ export class ViewProductComponent implements OnInit {
             this.backEnd.getShopItem(this.act.snapshot.paramMap.get('product') || '').subscribe(x => {
               if (x.Status == 0) {
                 this.item = x.item;
-                this.formComment.reset()
               }
             })
           }
@@ -110,7 +108,7 @@ export class ViewProductComponent implements OnInit {
   }
 
   editContent(event:any, comm:any){
-    this.backEnd.editComment(event, this.item._id, comm.id).subscribe(x=>{
+    this.backEnd.editComment(event, this.item._id, comm._id).subscribe(x=>{
       if(x.Status == 0){
         this.backEnd.getShopItem(this.act.snapshot.paramMap.get('product') || '').subscribe(x => {
           if (x.Status == 0) {
@@ -134,7 +132,7 @@ export class ViewProductComponent implements OnInit {
   setLike(comm:any){
     if(this.jwt.decodeToken(this.backEnd.getToken())){
       if(!this.liked(comm)){
-        this.backEnd.setLike(this.item._id, comm.id).subscribe(x=>{
+        this.backEnd.setLike(this.item._id, comm._id).subscribe(x=>{
           if(x.Status == 0){
             comm = x.Comment
             this.backEnd.getShopItem(this.act.snapshot.paramMap.get('product') || '').subscribe(x => {
@@ -147,7 +145,7 @@ export class ViewProductComponent implements OnInit {
         })
       }
       else{
-        this.backEnd.setLikent(this.item._id, comm.id).subscribe(x=>{
+        this.backEnd.setLikent(this.item._id, comm._id).subscribe(x=>{
           this.backEnd.getShopItem(this.act.snapshot.paramMap.get('product') || '').subscribe(x => {
             if (x.Status == 0) {
               this.item = x.item;
@@ -168,7 +166,7 @@ export class ViewProductComponent implements OnInit {
   setDislikes(comm:any){
     if(this.jwt.decodeToken(this.backEnd.getToken())){
       if(!this.disLiked(comm)){
-        this.backEnd.setDislike(this.item._id, comm.id).subscribe(x=>{
+        this.backEnd.setDislike(this.item._id, comm._id).subscribe(x=>{
           if(x.Status == 0){
             comm = x.Comment
             this.backEnd.getShopItem(this.act.snapshot.paramMap.get('product') || '').subscribe(x => {
@@ -180,7 +178,7 @@ export class ViewProductComponent implements OnInit {
           }
         })
       }else{
-        this.backEnd.setDislikent(this.item._id, comm.id).subscribe(x=>{
+        this.backEnd.setDislikent(this.item._id, comm._id).subscribe(x=>{
           this.backEnd.getShopItem(this.act.snapshot.paramMap.get('product') || '').subscribe(x => {
             if (x.Status == 0) {
               this.item = x.item;
