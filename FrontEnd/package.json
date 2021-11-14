@@ -2,11 +2,12 @@
   "name": "front-end",
   "version": "0.0.0",
   "scripts": {
+    "start": "node server.js",
     "ng": "ng",
-    "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "postinstall": "ng build"
   },
   "private": true,
   "dependencies": {
@@ -19,17 +20,19 @@
     "@angular/platform-browser-dynamic": "~12.1.0",
     "@angular/router": "~12.1.0",
     "@auth0/angular-jwt": "^5.0.2",
+    "express": "^4.17.1",
     "ng-zorro-antd": "^12.0.1",
     "ngx-cookie-service": "^12.0.3",
     "ngx-dropzone": "^3.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
-    "zone.js": "~0.11.4"
+    "zone.js": "~0.11.4",
+    "typescript": "^4.3.5"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~12.1.4",
-    "@angular/cli": "~12.1.4",
-    "@angular/compiler-cli": "~12.1.0",
+    "@angular/cli": "^13.0.2",
+    "@angular/compiler-cli": "^12.1.5",
     "@types/jasmine": "~3.8.0",
     "@types/node": "^12.11.1",
     "jasmine-core": "~3.8.0",
@@ -38,6 +41,10 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
-    "typescript": "~4.3.2"
+    "typescript": "^4.3.5"
+  },
+  "engines": {
+    "node": "14.17.1",
+    "npm": "6.14.13"
   }
 }

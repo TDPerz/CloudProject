@@ -92,6 +92,7 @@ routes.put('/clothe/:_id/comment/edit/:id', auth.requireLogin, async(req,res)=>{
 routes.put('/clothe/edit/:_id', auth.requireLogin, async(req, res)=>{
     const _id = req.params._id
     const{title, img, desc, tag, date, cost, inStock} = req.body
+    console.log(req.body)
     let result = await ViewItems.editClothe(_id, title, img, desc, tag, date, cost, inStock)
     res.json(result)
 })

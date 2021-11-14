@@ -83,6 +83,10 @@ clotheSchema.statics.getNews = async function(){
  */
 clotheSchema.statics.editClothe = async function(_id, title, img, desc, tag, date, cost, inStock){
     let resp = {Status:0, Mensaje:'Datos actualizado'}
+    let public_id = (await this.getClothe(_id)).img.public_id
+    if(public_id != img.public_id){
+        cloudinary.uploader.destroy(public_id, function (error, result){if (error) console.log(error)})
+    }
     let a = await this.updateOne({_id}, {title, img, desc, tag, date, cost, inStock}, (err, resu)=>{
         if(err) resp = {Status: -1, Mensaje:'Error, No actualizado'}
         resp = {status:0, Mensaje:"Listo, subido"}
@@ -108,35 +112,12 @@ clotheSchema.statics.editComment = async function(_id, id, content){
 }
 
 clotheSchema.statics.deleteComment = async function(_id, idc){
-    // let pos = await this.findOne({_id:_id})
-    // index = getCommentID(pos.comment, idc)
-    // pos.comment.splice(index, 1)
-    // var a = await this.updateOne({_id:_id},{comment:pos.comment})
     var a = await this.updateOne({_id:_id},{$pull:{comment:{_id:idc}}})
     return {Status:0, Messaje:"Ok"}
 }
 
 clotheSchema.statics.setRate = async function(_id, rate, user){
     let pos = await this.findOne({_id})
-    // if(pos.rates){
-    //     index = getExistRate(pos.rates, user)
-    //     if(index != -1){
-    //         pos.rawRate -= pos.rates[index].rate
-    //         pos.rates[index].rate = rate
-    //         pos.rawRate += rate
-    //     }
-    //     else{
-    //         pos.rates.push({user, rate})
-    //         pos.rawRate += rate
-    //     }
-    //     let a = await this.updateOne({_id:_id}, {rawRate:pos.rawRate, rates:pos.rates})
-    // }else{
-    //     pos.rates.push({user, rate})
-    //     pos.rawRate = rate + 0
-    //     console.log(pos.rates, pos.rawRate)
-    //     console.log(pos)
-    //     let a = await this.updateOne({_id:_id}, {rawRate:pos.rawRate, rates:pos.rates})
-    // }
     index = getExistRate(pos.rates, user)
     var suma = pos.rawRate
     if(index != -1){
