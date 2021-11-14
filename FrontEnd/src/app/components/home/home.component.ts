@@ -52,13 +52,13 @@ export class HomeComponent implements OnInit {
 
   logOut(){
     if(this.cookie.check('token')){
-      this.cookie.delete('token')
+      this.cookie.delete("token")
     }
     else{
       sessionStorage.removeItem('token')
     }
     this.route.navigate([''])
-    window.location.reload();
+    window.location.reload()
   }
 
 }

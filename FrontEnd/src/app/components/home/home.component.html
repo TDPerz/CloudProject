@@ -4,9 +4,9 @@
       <p>{{NavTitle}}</p>
     </div>
     <ul nz-menu nzMode="vertical" nzTheme="dark" class="menu-collapse">
-      <li nz-menu-item>Home</li>
-      <li nz-menu-item>About</li>
-      <li nz-menu-item>Contact</li>
+      <li nz-menu-item routerLink="">Home</li>
+      <li nz-menu-item >About</li>
+      <li nz-menu-item >Contact</li>
     </ul>
     <div *ngIf="user == null; else userView">
       <button class="menu-Botton bt-in-bot" nz-button nzType="text" nz-dropdown [nzDropdownMenu]="menucollapse" [nzPlacement]="'bottomCenter'"><i nz-icon nzType="user" nzTheme="outline"></i><span>Account</span></button>
