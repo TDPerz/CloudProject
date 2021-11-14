@@ -1,5 +1,5 @@
 const mongo = require('mongoose');
-const ObjectID = require("bson-objectid");
+// const ObjectID = require("bson-objectid");
 var cloudinary = require('cloudinary').v2
 cloudinary.config({ 
     cloud_name: 'sekaijk', 
@@ -19,9 +19,17 @@ const clotheSchema = new mongo.Schema({
     date:Date,
     cost:String,
     inStock:String,
-    comment:Array,
+    comment:[{
+        user:String,
+        content:String,
+        likes:Array,
+        dislikes:Array
+    }],
     rawRate:Number,
-    rates:Array
+    rates:[{
+        user:String,
+        rate:Number
+    }]
 })
 
 /**
@@ -90,61 +98,70 @@ clotheSchema.statics.editClothe = async function(_id, title, img, desc, tag, dat
  * @returns devuelve el status de la operacion
  */
 clotheSchema.statics.postComment = async function(_id, user, content){
-    let a = await this.updateOne({_id:_id}, { $push: {comment:{id:new ObjectID(), user , content, likes:[], dislikes:[]}}})
+    let a = await this.updateOne({_id:_id}, { $push: {comment:{user , content, likes:[], dislikes:[]}}})
     return {Status:0, Mensaje:"Listo!"}
 }
 
 clotheSchema.statics.editComment = async function(_id, id, content){
-    let pos = await this.findOne({_id})
-    index = getCommentID(pos.comment, id)
-    pos.comment[index].content = content
-    let a = await this.updateOne({_id:_id}, {"comment":pos.comment})
+    let a = await this.updateOne({_id:_id, "comment._id":id}, {"comment.$.content":content})
     return {Status:0,Messaje:"Ok"}
 }
 
 clotheSchema.statics.deleteComment = async function(_id, idc){
-    let pos = await this.findOne({_id:_id})
-    index = getCommentID(pos.comment, idc)
-    pos.comment.splice(index, 1)
-    var a = await this.updateOne({_id:_id},{comment:pos.comment})
+    // let pos = await this.findOne({_id:_id})
+    // index = getCommentID(pos.comment, idc)
+    // pos.comment.splice(index, 1)
+    // var a = await this.updateOne({_id:_id},{comment:pos.comment})
+    var a = await this.updateOne({_id:_id},{$pull:{comment:{_id:idc}}})
     return {Status:0, Messaje:"Ok"}
 }
 
 clotheSchema.statics.setRate = async function(_id, rate, user){
     let pos = await this.findOne({_id})
-    if(pos.rates){
-        index = getExistRate(pos.rates, user)
-        if(index != -1){
-            pos.rawRate -= pos.rates[index].rate
-            pos.rates[index].rate = rate
-            pos.rawRate += rate
-        }
-        else{
-            pos.rates.push({user, rate})
-            pos.rawRate += rate
-        }
-        let a = await this.updateOne({_id:_id}, {rawRate:pos.rawRate, rates:pos.rates})
-    }else{
-        pos.rates.push({user, rate})
-        pos.rawRate = rate + 0
-        console.log(pos.rates, pos.rawRate)
-        console.log(pos)
-        let a = await this.updateOne({_id:_id}, {rawRate:pos.rawRate, rates:pos.rates})
+    // if(pos.rates){
+    //     index = getExistRate(pos.rates, user)
+    //     if(index != -1){
+    //         pos.rawRate -= pos.rates[index].rate
+    //         pos.rates[index].rate = rate
+    //         pos.rawRate += rate
+    //     }
+    //     else{
+    //         pos.rates.push({user, rate})
+    //         pos.rawRate += rate
+    //     }
+    //     let a = await this.updateOne({_id:_id}, {rawRate:pos.rawRate, rates:pos.rates})
+    // }else{
+    //     pos.rates.push({user, rate})
+    //     pos.rawRate = rate + 0
+    //     console.log(pos.rates, pos.rawRate)
+    //     console.log(pos)
+    //     let a = await this.updateOne({_id:_id}, {rawRate:pos.rawRate, rates:pos.rates})
+    // }
+    index = getExistRate(pos.rates, user)
+    var suma = pos.rawRate
+    if(index != -1){
+        suma = suma - pos.rates[index].rate
+        pos.rates[index].rate = rate
+        suma = suma += rate
+        await this.updateOne({_id, "rate.user":user}, { rawRate:suma, "rate.$.rate": rate})
+    }
+    else{
+        suma = pos.rawRate + rate
+        await this.updateOne({_id}, { rawRate:suma, $push:{rates:{user, rate}}})
     }
     return {Status:0, Messaje:"Ok"}
 }
 
 clotheSchema.statics.deletRate = async function(_id, user){
     var pos = await this.findOne({_id})
-    if(pos.rates.length !=0){
-        index = getExistRate(pos.rates, user)
-        if(index != -1){
-            pos.rawRate -= pos.rates[index].rate
-            pos.rates.splice(index, 1)
-        }
+    var resta = 0
+    index = getExistRate(pos.rates, user)
+    if(index != -1){
+        resta = pos.rawRate - pos.rates[index].rate
     }
-    var a = await this.updateOne({_id:_id}, {rawRate:pos.rawRate, rates:pos.rates})
-    return {Stastus:0, Messaje:"Ok"}
+    // var a = await this.updateOne({_id:_id}, {rawRate:pos.rawRate, rates:pos.rates})
+    await this.updateOne({_id}, { rawRate : resta, $pull:{rates:{user}}})
+    return {Status:0, Messaje:"Ok"}
 }
 
 /**
@@ -176,19 +193,9 @@ function getExistRate(list, user){
  * @returns retorna el comentario ya actualizado
  */
 clotheSchema.statics.likeComment = async function(_id, id, user){
-    let d = await this.findOne({_id:_id})
-    var index = getCommentID(d.comment, id)
-    var found = isDislike(d.comment[index].dislikes, user)
-    if(found  != -1){
-        d.comment[index].dislikes.splice(found, 1)
-    }
-    if(d.comment[index].likes){
-        d.comment[index].likes.push(user)
-    }else{
-        d.comment[index].likes = [user]
-    }
-    let a = await this.updateOne({_id:_id}, {comment:d.comment})
-    return {Status:0, Mensaje:"OK!", Comment:d.comment[id]}
+    let ddislike = await this.updateOne({_id:_id, "comment._id":id},{ $pull:{"comment.$.dislikes":user}})
+    let slike = await this.updateOne({_id:_id, "comment._id":id},{ $push:{"comment.$.likes":user}})
+    return {Status:0, Mensaje:"OK!"}
 }
 
 /**
@@ -199,14 +206,8 @@ clotheSchema.statics.likeComment = async function(_id, id, user){
  * @returns retorna el comentario ya actualizado
  */
  clotheSchema.statics.likenComment = async function(_id, id, user){
-    let d = await this.findOne({_id:_id})
-    var index = getCommentID(d.comment, id)
-    var found = isDislike(d.comment[index].likes, user)
-    if(found  != -1){
-        d.comment[index].likes.splice(found, 1)
-    }
-    let a = await this.updateOne({_id:_id}, {comment:d.comment})
-    return {Status:0, Mensaje:"OK!", Comment:d.comment[id]}
+    let slike = await this.updateOne({_id:_id, "comment._id":id},{ $pull:{"comment.$.likes":user}})
+    return {Status:0, Mensaje:"OK!"}
 }
 
 /**
@@ -217,19 +218,9 @@ clotheSchema.statics.likeComment = async function(_id, id, user){
  * @returns retorna el comentario ya actualizado
  */
 clotheSchema.statics.dislikeComment = async function(_id, id, user){
-    let d = await this.findOne({_id:_id})
-    var index = getCommentID(d.comment, id)
-    var found = isDislike(d.comment[index].likes, user)
-    if(found  != -1){
-        d.comment[index].likes.splice(found, 1)
-    }
-    if(d.comment[index].dislikes){
-        d.comment[index].dislikes.push(user)
-    }else{
-        d.comment[index].dislikes = [user]
-    }
-    let a = await this.updateOne({_id:_id}, {comment:d.comment})
-    return {Status:0, Mensaje:"OK!", Comment:d.comment[id]}
+    let ddislike = await this.updateOne({_id:_id, "comment._id":id},{ $push:{"comment.$.dislikes":user}})
+    let slike = await this.updateOne({_id:_id, "comment._id":id},{ $pull:{"comment.$.likes":user}})
+    return {Status:0, Mensaje:"OK!"}
 }
 
 /**
@@ -240,14 +231,8 @@ clotheSchema.statics.dislikeComment = async function(_id, id, user){
  * @returns retorna el comentario ya actualizado
  */
  clotheSchema.statics.dislikenComment = async function(_id, id, user){
-    let d = await this.findOne({_id:_id})
-    var index = getCommentID(d.comment, id)
-    var found = isDislike(d.comment[index].dislikes, user)
-    if(found  != -1){
-        d.comment[index].dislikes.splice(found, 1)
-    }
-    let a = await this.updateOne({_id:_id}, {comment:d.comment})
-    return {Status:0, Mensaje:"OK!", Comment:d.comment[id]}
+    let ddislike = await this.updateOne({_id:_id, "comment._id":id},{ $push:{"comment.$.dislikes":user}})
+    return {Status:0, Mensaje:"OK!"}
 }
 
 /**

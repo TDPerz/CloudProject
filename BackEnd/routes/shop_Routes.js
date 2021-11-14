@@ -102,7 +102,7 @@ routes.delete('/clothe/delete/:_id', auth.requireLogin, async(req,res)=>{
     res.json(resp)
 })
 
-routes.delete('/clothe/:_id/comment/:id/delete', auth.requireLogin, async(req, res)=>{
+routes.delete('/clothe/:_id/comment/:id', auth.requireLogin, async(req, res)=>{
     const resp = await ViewItems.deleteComment(req.params._id, req.params.id)
     res.json(resp)
 })
