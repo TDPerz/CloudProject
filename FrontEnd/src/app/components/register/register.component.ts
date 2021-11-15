@@ -117,14 +117,25 @@ export class RegisterComponent implements OnInit {
   }
 
   register(){
-    this.backEnd.activeAccount(this.registerForm.controls['email'].value).subscribe(x=>{
-      if(x.Status == 0){
-        this.isActivate = true;
-        this.tokenValue = x.Token;
-        this.currentTime = this.getTime(this.timeLeft)
-        this.startTimer()
-      }
-    })
+    // this.backEnd.activeAccount(this.registerForm.controls['email'].value).subscribe(x=>{
+    //   if(x.Status == 0){
+    //     this.isActivate = true;
+    //     this.tokenValue = x.Token;
+    //     this.currentTime = this.getTime(this.timeLeft)
+    //     this.startTimer()
+    //   }
+    // })
+    this.backEnd.register(this.registerForm.value).subscribe(x=>{
+        if(x.Status == 0){
+          this.confirm = false
+          sessionStorage.setItem('token', x.Token)
+          this.icono = 'check-circle'
+          this.status = 'Cuenta creada correctamente!'
+          this.contentStatus = 'Bienvenido!!'
+          this.loading = false;
+          this.route.navigate(['/'])
+        }
+      })
   }
 
   tokenError(){
